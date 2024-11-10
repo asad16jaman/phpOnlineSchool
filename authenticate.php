@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
             if(password_verify($password,$ob['password'])){
                    
-                $_SESSION['user_logged_in'] = TRUE;
+                $_SESSION['user_logged_in'] = true;
 			    $_SESSION['admin_type'] = $ob['type'];
 			    $_SESSION['user_id'] = $ob['id'];
 			    $_SESSION['email'] = $ob['email'];

@@ -29,6 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $arr[] = $imgName;
             $db = getDbInstance();
             $db->rawQuery("INSERT INTO courses(name,description,author,duration,price,sell_price,img) VALUES(?,?,?,?,?,?,?)",$arr);
+            $_SESSION['success'] = "successfully lesson  add.";
             header("Location: courselist.php");
             exit();
         }catch(Exception $e){

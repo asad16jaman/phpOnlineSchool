@@ -4,7 +4,7 @@ session_start();
 require_once './config/config.php';
 
 // If User has already logged in, redirect to dashboard page.
-if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === TRUE)
+if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true)
 {
 	header('Location:index.php');
 }
@@ -32,7 +32,7 @@ if (isset($_COOKIE['series_id']) && isset($_COOKIE['remember_token']))
 				header('Location:login.php');
 				exit;
 			}
-			$_SESSION['user_logged_in'] = TRUE;
+			$_SESSION['user_logged_in'] = true;
 			$_SESSION['admin_type'] = $row['type'];
 			$_SESSION['user_id'] = $row['id'];
 			$_SESSION['email'] = $row['email'];

@@ -39,7 +39,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/examples/invoice.html" class="nav-link">
+                <a href="./lessonlist.php" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
                   <p>Lessons</p>
                 </a>
@@ -63,17 +63,12 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/examples/invoice.html" class="nav-link">
+                <a href="./change_password.php" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>Password</p>
+                  <p>Change Password</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="pages/examples/invoice.html" class="nav-link">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                  <p>Dashboard</p>
-                </a>
-              </li>
+              
               <li class="nav-item">
                 <a href="pages/examples/invoice.html" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>

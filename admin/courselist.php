@@ -111,6 +111,7 @@ require_once('./template/sidebar.php')
                       <th>Course Name</th>
                       <th>Author</th>
                       <th>Action</th>
+                      <th>Add Lessons</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -132,6 +133,11 @@ require_once('./template/sidebar.php')
 
                         </form>
 
+                      </td>
+                      <td>
+                        <a href="./lessonlist.php?crs=<?php echo $data['id'] ?>" class="btn btn-danger">
+                          <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
                       </td>
                     </tr>
                     <?php }?>
