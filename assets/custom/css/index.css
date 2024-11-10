@@ -1,0 +1,163 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+:root{
+    scroll-behavior: smooth;
+}
+.profileImage{
+    width: 41px;
+  height: 41px;
+}
+
+.drop-btn{
+    border: 1px solid black;
+    padding: 0px !important;
+    border-radius: 27%;
+    overflow: hidden;
+    position: relative;
+}
+.drop{
+    position: absolute !important;
+  left: 24px;
+  bottom: -21px;
+  font-size: 27px;
+  outline: none;
+  border: none !important;
+}
+
+.toggleMain{
+    position :relative;
+    margin-right: 10px;
+}
+
+.manu-margin{
+    margin-left: -100px !important;
+}
+.navContent li:hover{
+    background-color: red;
+}
+.banner-video{
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+}
+.banner-video video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner-overlay{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+    background-color: #ff0048d1;
+    opacity: 0.6;
+}
+.banner-messages{
+    position: absolute;
+  top: 40%;
+  left: 10%;
+  z-index: 2;
+  background: yellow;
+  padding: 32px;
+  box-shadow: 3px 12px 19px -2px black;
+  border-radius: 9px;
+  text-align: center;
+}
+.banner-messages h3{}
+.banner-messages p{}
+.banner-messages button{}
+.heighliter{
+    width: 100%;
+    background-color: red;
+    color: #ffffff !important;
+    padding: 7px 0;
+}
+
+.content_header{
+    padding: 30px 0px;
+}
+
+.owl-dots{
+    text-align: center;
+}
+.owl-dots button span{
+    padding: 0px 7px;
+    background-color: #dd1717;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 54%;
+}
+.owl-nav{
+    display: none;
+}
+
+/* banner css other page  */
+
+.top-banner{
+    width: 100%;
+    height: 200px;
+    position: relative;
+}
+.top-banner img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.top_banner_overlay{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    opacity: 0.5;
+    position: absolute;
+    z-index: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 767px){
+    .manu-margin{
+        margin-left: 0px !important;
+    }
+  
+
+
+
+
+
+}
+
+@media screen and (max-width: 576px){
+    .manu-margin{
+        margin-left: 0px !important;
+    }
+}
+
+@media screen and (max-width: 767px){
+    .manu-margin{
+        margin-left: 0px !important;
+    }
+}
