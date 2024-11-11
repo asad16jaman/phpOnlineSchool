@@ -10,11 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($name && $email && $password) {
         $data = array(
-            $name,
-            $email,
-            password_hash($password, PASSWORD_DEFAULT),
+            "name" => $name,
+            "email" => $email,
+            "password" => password_hash($password, PASSWORD_DEFAULT)
         );
-
         try {
 
             $db = getDbInstance();
@@ -27,7 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit();
             }
 
-            $db->rawQuery("INSERT INTO users(name,email,password) VALUES(?,?,?)", $data);
+            $adduser = $db->insert('users',$data);
+            $profile = $db->insert('profiles',["user_id"=>$adduser]);
             $_SESSION['success'] = "Successfully reistared";
             header("Location: login.php");
             exit();

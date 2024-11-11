@@ -28,18 +28,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' &&  isset($_POST['delete_id'])){
         $_SESSION['failure'] = $e->getMessage();
             header("Location: lessonlist.php?crs=$crs_id");
             exit();
-
     }
 }
-
-
-
-
 
 $course = $db->where('id',$crs_id)->getOne('courses');
 
 $lesson = $db->where('course_id',$crs_id)->get('lessons');
-
 
 require_once('./template/top.php');
     
@@ -104,12 +98,10 @@ require_once('./template/sidebar.php')
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                     
                       <th>Lesson Id</th>
                       <th>Lesson Name</th>
                       <th>Video</th>
                       <th>Action</th>
-                  
                     </tr>
                   </thead>
                   <tbody>
@@ -128,34 +120,19 @@ require_once('./template/sidebar.php')
                             <button onclick="confirm('Are You sure to delete this user') ? this.parent.submit() : '' " type="submit"  class="btn btn-danger">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </button>
-
-                        </form>
-
-                      </td>
-                     
+                       </form>
+                      </td>                    
                     </tr>
                     <?php }?>
-
-                    
-                    
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
-             
-              
-
-
-
-
             </div>
-            <!-- /.card -->
-            
+            <!-- /.card -->            
           </div>
         </div>
         <!-- /.row -->
-        
-		
         </div>
     </section>
     <?php }else{

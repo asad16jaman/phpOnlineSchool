@@ -35,7 +35,7 @@
             </button>
             <ul class="dropdown-menu manu-margin">
               <?php if(isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in']==true){ ?>
-              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a class="dropdown-item" href="./profile">Profile</a></li>
               <li><a class="dropdown-item" href="./logout.php">Logout</a></li>
               <?php }else{ ?>
               <li><a class="dropdown-item" href="./login.php">Login</a></li>

@@ -120,13 +120,6 @@ require_once('./includes/topBanner.php')
    
 </div>
 
-
-
-
-
-
-
-
 <?php
 require_once('./includes/footer_indecator.php')
 ?>
