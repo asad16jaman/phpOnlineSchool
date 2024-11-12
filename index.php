@@ -1,5 +1,11 @@
 <?php
 session_start();
+require_once('./config/Config.php');
+
+$db = getDbInstance();
+$db->pageLimit = 6;
+$popular_course = $db->arraybuilder()->paginate("courses", 1);
+
 require_once('./includes/header.php')
 ?>
 
@@ -8,8 +14,6 @@ require_once('./includes/header.php')
 require_once('./includes/navbar.php')
 ?>
   <!-- NavBar end -->
-
-
   <!-- Banner section Sttart -->
   <div class="container-fluid g-0" id="home">
     <div class="banner-video">
@@ -26,9 +30,6 @@ require_once('./includes/navbar.php')
       </div>
   </div>
   <!-- Banner section end -->
-
-
-
   <!-- Banner heighliger start -->
   <div class="heighliter">
   <div class="container">
@@ -49,9 +50,6 @@ require_once('./includes/navbar.php')
   </div>
   </div>
     <!-- Banner  heighliger end -->
-
-
-
     <!--Course Section Start -->
     <div class="container">
       <div class="content_header">
@@ -60,119 +58,38 @@ require_once('./includes/navbar.php')
       <div class="content_body">
         <div class="row">
           <!-- subject - 1-->
-          <div class="col-12 col-md-6 col-lg-4 py-1">
+          <?php foreach($popular_course as $course){ ?>
+            <div class="col-12 col-md-6 col-lg-4 py-1">
           <div class="card" style="width: 18rem;">
-            <img src="./assets/img/html.png" class="card-img-top" alt="...">
+            <img src="./admin/_assets/crs_thum/<?php echo $course['img'] ?>" class="card-img-top" style="height:160px" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <h5 class="card-title"><?php echo strtoupper($course['name'])?></h5>
+              <p class="card-text">
+                <?php
+                    echo limit_words($course['description'],20)."..."
+                ?>
+              </p>
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center"><span>Price: <del>1500</del> 1200</span>
-                <button class="btn btn-primary">Enroll</button>
+              <li class="list-group-item d-flex justify-content-between align-items-center"><span>Price: <del><?php echo $course['price'] ?></del> <?php echo $course['sell_price'] ?></span>
+                <!-- <button class="btn btn-primary">Enroll</button> -->
+                 <a href="/course.php?crs_id=<?php echo $course['id'] ?>" class="btn btn-primary">View</a>
             </li>
             </ul>
           </div>
           </div>
 
-          <!-- subject - 1-->
-          <div class="col-12 col-md-6 col-lg-4 py-1">
-          <div class="card" style="width: 18rem;">
-            <img src="./assets/img/html.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center"><span>Price: <del>1500</del> 1200</span>
-                <button class="btn btn-primary">Enroll</button>
-            </li>
-            </ul>
-          </div>
-          </div>
-
-          <!-- subject - 1-->
-          <div class="col-12 col-md-6 col-lg-4 py-1">
-          <div class="card" style="width: 18rem;">
-            <img src="./assets/img/html.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center"><span>Price: <del>1500</del> 1200</span>
-                <button class="btn btn-primary">Enroll</button>
-            </li>
-            </ul>
-          </div>
-          </div>
-
-          <!-- subject - 1-->
-          <div class="col-12 col-md-6 col-lg-4 py-1">
-          <div class="card" style="width: 18rem;">
-            <img src="./assets/img/html.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center"><span>Price: <del>1500</del> 1200</span>
-                <button class="btn btn-primary">Enroll</button>
-            </li>
-            </ul>
-          </div>
-          </div>
-
-          <!-- subject - 1-->
-          <div class="col-12 col-md-6 col-lg-4 py-1">
-          <div class="card" style="width: 18rem;">
-            <img src="./assets/img/html.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center"><span>Price: <del>1500</del> 1200</span>
-                <button class="btn btn-primary">Enroll</button>
-            </li>
-            </ul>
-          </div>
-          </div>
-
-          <!-- subject - 1-->
-          <div class="col-12 col-md-6 col-lg-4 py-1">
-          <div class="card" style="width: 18rem;">
-            <img src="./assets/img/html.png" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item d-flex justify-content-between align-items-center"><span>Price: <del>1500</del> 1200</span>
-                <button class="btn btn-primary">Enroll</button>
-            </li>
-            </ul>
-          </div>
-          </div>
+          <?php } ?>
         </div>
       </div>
     </div>
     <!-- Course Section end -->
-
-
-
-
 <!--  Contact Section Start -->
-
   <?php
   require_once('./includes/contact.php')
   ?>
 <!--  Contact Section end -->
-
-
-
     <!-- Feedback Start -->
-
     <div class="conatiner-fluid bg-primary py-5 px-3" id="feedbackSection">
       <div class="content_header">
         <h1 class="text-center" >Student Feedback</h1>
@@ -243,14 +160,7 @@ require_once('./includes/navbar.php')
 
 
     </div>
-
-
-
-
     <!-- carousel end -->
-
-
-
 <?php
 require_once('./includes/footer_indecator.php')
 ?>

@@ -95,7 +95,13 @@ function paginateController(string $page,int $total,int $current){
 		$next = $current +1;
 	}
 
-	$pageButton = "<li class='page-item'><a class='page-link' href='/admin/students.php?page=".$prev."'>«</a></li>".$pageButton;
-	$pageButton .= "<li class='pag-item'><a class='page-link' href='/admin/students.php?page=".$next."'>»</a></li>";
+	$pageButton = "<li class='page-item'><a class='page-link' href=".$page."?page=".$prev.">«</a></li>".$pageButton;
+	$pageButton .= "<li class='pag-item'><a class='page-link' href=".$page."?page=".$next.">»</a></li>";
 	return $pageButton;
+}
+
+function limit_words($text, $word_limit) {
+    $words = explode(' ', $text);          // Split text into an array of words
+    $limited_text = array_slice($words, 0, $word_limit);  // Get the first 20 words
+    return implode(' ', $limited_text);    // Join the words back into a single string
 }

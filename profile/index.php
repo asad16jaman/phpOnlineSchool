@@ -278,19 +278,6 @@ require_once('./template/nav.php')
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 <?php
 require_once('./template/sidebar.php')
 ?>

@@ -1,14 +1,12 @@
 <?php
-session_start();
-require_once('./../config/Config.php');
-require_once('./template/top.php')
-    ?>
-
-
+  session_start();
+  require_once('./../config/Config.php');
+  require_once('./template/top.php')
+?>
 <!-- Navbar -->
 <?php
 require_once('./template/nav.php')
-    ?>
+  ?>
 <!-- /.navbar -->
 
 <!-- Main Sidebar Container -->
@@ -18,19 +16,14 @@ require_once('./template/sidebar.php')
 <!-- Main Sidebar Container -->
 
 
-<a href="./add_course.php" class="btn btn-danger" style="position:fixed;bottom:60px;right:10px"><i class="fa fa-plus" aria-hidden="true"></i></a>
+<a href="./add_course.php" class="btn btn-danger" style="position:fixed;bottom:60px;right:10px;z-index:22"><i class="fa fa-plus" aria-hidden="true"></i></a>
 
 
 <?php 
     $db = getDbInstance();
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-    
-      $id = filter_input(INPUT_POST,'delete_id',FILTER_VALIDATE_INT);
-
-      
-     
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
+      $id = filter_input(INPUT_POST,'delete_id',FILTER_VALIDATE_INT);     
       if($id){
         try{
           $deleteData = $db->where('id',$id)->getOne('courses');
@@ -54,13 +47,8 @@ require_once('./template/sidebar.php')
     $db->pageLimit = 5;
 
     $all = $db->arraybuilder()->paginate("courses", $page);
-
-    
+   
 ?>
-
-
-
-
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -88,7 +76,6 @@ require_once('./template/sidebar.php')
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title"> Courses</h3>
-
                 <div class="card-tools">
                   <div class="input-group input-group-sm" style="width: 150px;">
                     <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
@@ -105,8 +92,7 @@ require_once('./template/sidebar.php')
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                   <thead>
-                    <tr>
-                     
+                    <tr>                    
                       <th>Course Id</th>
                       <th>Course Name</th>
                       <th>Author</th>
@@ -115,13 +101,11 @@ require_once('./template/sidebar.php')
                     </tr>
                   </thead>
                   <tbody>
-
                     <?php foreach($all as $data) {?>
                       <tr>
                       <td><?php echo $data['id'] ?></td>
                       <td><?php echo $data['name'] ?></td>
-                      <td><?php echo $data['author'] ?></td>
-                   
+                      <td><?php echo $data['author'] ?></td>                  
                       <td>
                         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
                             <a href="./edit_course.php?crs_id=<?php echo $data['id'] ?>" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -130,9 +114,7 @@ require_once('./template/sidebar.php')
                             <button onclick="confirm('Are You sure to delete this user') ? this.parent.submit() : '' " type="submit" class="btn btn-danger">
                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                             </button>
-
                         </form>
-
                       </td>
                       <td>
                         <a href="./lessonlist.php?crs=<?php echo $data['id'] ?>" class="btn btn-danger">
@@ -141,9 +123,6 @@ require_once('./template/sidebar.php')
                       </td>
                     </tr>
                     <?php }?>
-
-                    
-                    
                   </tbody>
                 </table>
               </div>
