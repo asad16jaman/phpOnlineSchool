@@ -2,6 +2,8 @@
 session_start();
 require_once('./config/Config.php');
 
+
+
 $course_id = filter_input(INPUT_GET,'crs_id');
 
 if(!$course_id){
@@ -15,6 +17,8 @@ if(!$course){
   header("Location: /");
   exit();
 }
+
+$is_purces = $db->where('course_id',$course_id)->where('user_id',$_SESSION['user_id'])->getOne('user_courses');
 
 
 
@@ -73,7 +77,15 @@ require_once('./includes/topBanner.php')
                 </div>
                 <div class="card-footer">
                     <div class="d-grid gap-2">
-                    <button class="btn btn-primary" type="button">Checkout</button>
+                        <?php if(!$is_purces){ ?>
+                            <form action="purchaces.php?crs_id=<?php echo $course['id'] ?>" method="post">
+                         <input type="submit" value="Checkout" class="btn btn-primary">
+                        </form>
+
+                        <?php }else{ ?>
+                                <p class="text-center">You Have purches this course</p>
+                        <?php } ?>
+                       
                     </div>
                 </div>
             </div>

@@ -21,6 +21,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 			    $_SESSION['admin_type'] = $ob['type'];
 			    $_SESSION['user_id'] = $ob['id'];
 			    $_SESSION['email'] = $ob['email'];
+			    $_SESSION['image'] = $ob['image'];
                 
                if($remember){
                 $expiry_time = date('Y-m-d H:i:s', strtotime(' + 30 days'));

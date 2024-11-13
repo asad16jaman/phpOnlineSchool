@@ -4,15 +4,16 @@ if(!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in'] || $_SESS
     header("Location: /index.php");
     exit();
 };
-require_once('./template/top.php');
-$edit = false;
-?>
+  require_once('./../config/Config.php');
+
+require_once('./template/top.php')
+    ?>
 
 
 <!-- Navbar -->
 <?php
 require_once('./template/nav.php')
-?>
+    ?>
 <!-- /.navbar -->
 
 <!-- Main Sidebar Container -->
@@ -30,7 +31,7 @@ require_once('./template/sidebar.php')
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Add New Course</h1>
+                    <h1 class="m-0">Seles report</h1>
                 </div>
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -44,23 +45,9 @@ require_once('./template/sidebar.php')
     <section>
         <div class="container-fluid">
              <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-6 col-md-8 col-12 offset-md-2 offset-lg-3">
-                <div class="card py-3">
-                    <h3 class="text-center">Course detail</h3>
-                    <div class="card-body">
-                        <form action="./store_course.php" method="post"  enctype="multipart/form-data">
-                        <?php require_once('./forms/course.php') ?>
-                        <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                        </form>
-
-                    </div>
-                    
-                </div>
-                </div>
-            </div>
+        <div class="row px-3 py-3">
+          
+        </div>
         <!-- /.row -->
         
 		

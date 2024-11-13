@@ -1,5 +1,9 @@
 <?php
 session_start();
+if(!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in'] || $_SESSION['admin_type'] != "admin"){
+    header("Location: /index.php");
+    exit();
+};
 require_once('./../config/Config.php');
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $id = filter_input(INPUT_GET,'crs_id');

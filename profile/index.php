@@ -1,11 +1,23 @@
 <?php
 session_start();
+if(!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']){
+  header("Location: index.php");
+  exit();
+};
 require_once('./../config/Config.php');
 $db= getDbInstance();
 
+$userId = $_SESSION['user_id'];
 $current_user = $db->where("id",$_SESSION['user_id'])->getOne("users");
 $current_profile = $db->where("user_id",$_SESSION['user_id'])->getOne("profiles");
 
+//all courses
+$myallCourses = $db->rawQuery("SELECT user_courses.created_at as purces_time,courses.* FROM user_courses INNER JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id=$userId");
+
+//all feedback
+// $myallfeedback = $db->where('user_id',$_SESSION['user_id'])->get("feedbacks");
+$myallfeedback = $db->rawQuery("SELECT feedbacks.*,courses.id as crsId,courses.img,courses.name FROM feedbacks INNER JOIN courses ON feedbacks.course_id = courses.id where feedbacks.user_id=$userId");
+// var_dump();
 
 if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['name'])){
   $name = clean_input(filter_input(INPUT_POST,'name'));
@@ -43,9 +55,6 @@ if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['name'])){
 }
 
 
-
-
-
 require_once('./template/top.php')
 ?>
 
@@ -64,7 +73,7 @@ require_once('./template/nav.php')
     <!-- Main content -->
 
     <!-- /.content -->
-
+  
   
 
     <section class="content mt-3">
@@ -102,7 +111,7 @@ require_once('./template/nav.php')
                   </li>
                 </ul>
 
-                <a href="./profile/profilePic.php" class="btn btn-primary btn-block"><b>Update Profile Pic</b></a>
+                <a href="/profile/profilePic.php" class="btn btn-primary btn-block"><b>Update Profile Pic</b></a>
               </div>
               <!-- /.card-body -->
             </div>
@@ -164,42 +173,79 @@ require_once('./template/nav.php')
                   
                   <!-- /.tab-pane -->
                   <div class="tab-pane active" id="activity">
-                    Second  Tab contend  will be hare...
-                    
+                    <!-- Second  Tab contend  will be hare... -->
+                    <?php if(count($myallCourses)<1){
+                      echo "<p>You do not purches any  course </p>";
+                    }else{ 
+                      foreach($myallCourses as $card){
+                      ?>
+                    <!-- course card -->
+                     
+                    <div class="card mb-3">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 col-12">
+                            <img src="/admin/_assets/crs_thum/<?php echo $card['img'] ?>" class="img-fluid" alt="">
+                          </div>
+                          <div class="col-md-8 col-12">
+                                <div class="d-flex justify-content-between">
+                                    <h3><?php echo $card['name'] ?></h3>
+                                    <span><?php echo date("d-m-Y",strtotime($card['purces_time'])) ?></span>
+                                </div>
+                                <p>
+                                <?php echo limit_words($card['description'],40) ?>.....
+                                </p>
+                                <div class="d-flex justify-content-end">
+                                  
+                                   <a href="/profile/feedback.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-primary">Give Feedback</a>
+                                 
+                                   <a href="/profile/course_view.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-secondary mx-3">View</a>
+                                </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <?php }; } ?>
+
+                    <!-- course card end -->
                   </div>
 
                   <div class="tab-pane " id="timeline">
+                    <?php if(count($myallfeedback)<1){
+                      echo  "<p class='lead'>there is no feedback...</p>";
+                    }else{ 
+                      foreach($myallfeedback as $feedback){
+                      
+                      ?>
                     <!-- Post -->
                     <div class="post">
                       <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                        <img class="img-circle img-bordered-sm" src="/admin/_assets/crs_thum/<?php echo $feedback['img'] ?>" alt="user image">
                         <span class="username">
-                          <a href="#">Jonathan Burke Jr.</a>
+                          <a href="#"><?php echo $feedback['name'] ?></a>
                           <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
                         </span>
-                        <span class="description">Shared publicly - 7:30 PM today</span>
+                        <span class="description">Time - <?php echo date('d/m/Y h:i:sa', strtotime($feedback['created_at'])) ?></span>
                       </div>
                       <!-- /.user-block -->
                       <p>
-                        Lorem ipsum represents a long-held tradition for designers,
-                        typographers and the like. Some people hate it and argue for
-                        its demise, but others ignore the hate as they create awesome
-                        tools to help create filler text for everyone from bacon lovers
-                        to Charlie Sheen fans.
+                        <?php
+                            echo $feedback['fedbk']
+                        ?>
                       </p>
 
-                      <p>
-                        
-                        <span class="float-right">
-                          <a href="#" class="btn btn-primary clear-fix">
-                            View Now
-                          </a>
-                        </span>
-                      </p>
-
-                      
                     </div>
                     <!-- /.post -->
+
+                    <?php } } ?>
+
+                    
+
+
+
+
+
+
                   </div>
                   <!-- /.tab-pane -->
 

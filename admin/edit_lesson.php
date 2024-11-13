@@ -1,4 +1,9 @@
 <?php
+session_start();
+if(!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in'] || $_SESSION['admin_type'] != "admin"){
+    header("Location: /index.php");
+    exit();
+};
 require_once('./template/top.php')
     ?>
 
