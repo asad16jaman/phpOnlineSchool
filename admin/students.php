@@ -109,7 +109,7 @@ require_once('./template/sidebar.php')
                              <input type="hidden" name="delete_id" value="<?php echo $st['id'] ?>">
                             </a>
                             <button onclick="confirm('Are You sure to delete this user') ? this.parent.submit() : '' " type="submit" class="btn btn-danger">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <i class="fa-solid fa-trash"></i>
                             </button>
 
                         </form>

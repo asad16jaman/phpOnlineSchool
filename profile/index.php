@@ -7,17 +7,22 @@ if(!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']){
 require_once('./../config/Config.php');
 $db= getDbInstance();
 
+
+
 $userId = $_SESSION['user_id'];
 $current_user = $db->where("id",$_SESSION['user_id'])->getOne("users");
 $current_profile = $db->where("user_id",$_SESSION['user_id'])->getOne("profiles");
 
-//all courses
+if($_SESSION['admin_type'] != 'admin'){
+  //all courses
 $myallCourses = $db->rawQuery("SELECT user_courses.created_at as purces_time,courses.* FROM user_courses INNER JOIN courses ON user_courses.course_id = courses.id WHERE user_courses.user_id=$userId");
 
 //all feedback
-// $myallfeedback = $db->where('user_id',$_SESSION['user_id'])->get("feedbacks");
 $myallfeedback = $db->rawQuery("SELECT feedbacks.*,courses.id as crsId,courses.img,courses.name FROM feedbacks INNER JOIN courses ON feedbacks.course_id = courses.id where feedbacks.user_id=$userId");
-// var_dump();
+
+}
+
+
 
 if($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['name'])){
   $name = clean_input(filter_input(INPUT_POST,'name'));
@@ -158,153 +163,211 @@ require_once('./template/nav.php')
             </div>
             <!-- /.card -->
           </div>
+          <?php if($_SESSION['admin_type'] != 'admin'){ ?>
           <!-- /.col -->
-          <div class="col-md-9">
-            <div class="card">
-              <div class="card-header p-2">
-                <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">My Course</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">My Feedback</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Edit Profile</a></li>
-                </ul>
-              </div><!-- /.card-header -->
-              <div class="card-body">
-                <div class="tab-content">
-                  
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane active" id="activity">
-                    <!-- Second  Tab contend  will be hare... -->
-                    <?php if(count($myallCourses)<1){
-                      echo "<p>You do not purches any  course </p>";
-                    }else{ 
-                      foreach($myallCourses as $card){
-                      ?>
-                    <!-- course card -->
-                     
-                    <div class="card mb-3">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-md-4 col-12">
-                            <img src="/admin/_assets/crs_thum/<?php echo $card['img'] ?>" class="img-fluid" alt="">
-                          </div>
-                          <div class="col-md-8 col-12">
-                                <div class="d-flex justify-content-between">
-                                    <h3><?php echo $card['name'] ?></h3>
-                                    <span><?php echo date("d-m-Y",strtotime($card['purces_time'])) ?></span>
-                                </div>
-                                <p>
-                                <?php echo limit_words($card['description'],40) ?>.....
-                                </p>
-                                <div class="d-flex justify-content-end">
-                                  
-                                   <a href="/profile/feedback.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-primary">Give Feedback</a>
-                                 
-                                   <a href="/profile/course_view.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-secondary mx-3">View</a>
-                                </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <?php }; } ?>
-
-                    <!-- course card end -->
-                  </div>
-
-                  <div class="tab-pane " id="timeline">
-                    <?php if(count($myallfeedback)<1){
-                      echo  "<p class='lead'>there is no feedback...</p>";
-                    }else{ 
-                      foreach($myallfeedback as $feedback){
+              <div class="col-md-9">
+                <div class="card">
+                  <div class="card-header p-2">
+                    <ul class="nav nav-pills">
+                      <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">My Course</a></li>
+                      <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">My Feedback</a></li>
+                      <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Edit Profile</a></li>
+                    </ul>
+                  </div><!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="tab-content">
                       
-                      ?>
-                    <!-- Post -->
-                    <div class="post">
-                      <div class="user-block">
-                        <img class="img-circle img-bordered-sm" src="/admin/_assets/crs_thum/<?php echo $feedback['img'] ?>" alt="user image">
-                        <span class="username">
-                          <a href="#"><?php echo $feedback['name'] ?></a>
-                          <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                        </span>
-                        <span class="description">Time - <?php echo date('d/m/Y h:i:sa', strtotime($feedback['created_at'])) ?></span>
-                      </div>
-                      <!-- /.user-block -->
-                      <p>
-                        <?php
-                            echo $feedback['fedbk']
-                        ?>
-                      </p>
+                      <!-- /.tab-pane -->
+                      <div class="tab-pane active" id="activity">
+                        <!-- Second  Tab contend  will be hare... -->
+                        <?php if(count($myallCourses)<1){
+                          echo "<p>You do not purches any  course </p>";
+                        }else{ 
+                          foreach($myallCourses as $card){
+                          ?>
+                        <!-- course card -->
+                        
+                        <div class="card mb-3">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col-md-4 col-12">
+                                <img src="/admin/_assets/crs_thum/<?php echo $card['img'] ?>" class="img-fluid" alt="">
+                              </div>
+                              <div class="col-md-8 col-12">
+                                    <div class="d-flex justify-content-between">
+                                        <h3><?php echo $card['name'] ?></h3>
+                                        <span><?php echo date("d-m-Y",strtotime($card['purces_time'])) ?></span>
+                                    </div>
+                                    <p>
+                                    <?php echo limit_words($card['description'],40) ?>.....
+                                    </p>
+                                    <div class="d-flex justify-content-end">
+                                      
+                                      <a href="/profile/feedback.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-primary">Give Feedback</a>
+                                    
+                                      <a href="/profile/course_view.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-secondary mx-3">View</a>
+                                    </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <?php }; } ?>
 
+                        <!-- course card end -->
+                      </div>
+
+                      <div class="tab-pane " id="timeline">
+                        <?php if(count($myallfeedback)<1){
+                          echo  "<p class='lead'>there is no feedback...</p>";
+                        }else{ 
+                          foreach($myallfeedback as $feedback){
+                          
+                          ?>
+                        <!-- Post -->
+                        <div class="post">
+                          <div class="user-block">
+                            <img class="img-circle img-bordered-sm" src="/admin/_assets/crs_thum/<?php echo $feedback['img'] ?>" alt="user image">
+                            <span class="username">
+                              <a href="#"><?php echo $feedback['name'] ?></a>
+                              <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
+                            </span>
+                            <span class="description">Time - <?php echo date('d/m/Y h:i:sa', strtotime($feedback['created_at'])) ?></span>
+                          </div>
+                          <!-- /.user-block -->
+                          <p>
+                            <?php
+                                echo $feedback['fedbk']
+                            ?>
+                          </p>
+
+                        </div>
+                        <!-- /.post -->
+
+                        <?php } } ?>
+
+                        
+
+
+
+
+
+
+                      </div>
+                      <!-- /.tab-pane -->
+
+                      <div class="tab-pane" id="settings">
+                        <form class="form-horizontal" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+                          <div class="form-group row">
+                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-10">
+                              <input type="name" name="name" value="<?php echo $current_user['name'] ?>" class="form-control" id="inputName" placeholder="Name">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                              <input type="email" readonly name="email" value="<?php echo $current_user['email'] ?>" class="form-control" id="inputEmail" placeholder="Email">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputName2" class="col-sm-2 col-form-label">Occupation</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="occupation" value="<?php echo $current_user['occupation'] ?>" class="form-control" id="" placeholder="What You Doing Now">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputExperience" class="col-sm-2 col-form-label">City</label>
+                            <div class="col-sm-10">
+                              <input type="text"  name="city" value="<?php echo $current_profile['city'] ?>"  class="form-control" placeholder="Your city" id="">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputSkills" class="col-sm-2 col-form-label">Phone</label>
+                            <div class="col-sm-10">
+                              <input type="text"  name="phone" value="<?php echo $current_profile['phone'] ?>" class="form-control" id="inputSkills" placeholder="Skills">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputSkills"  class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                              <textarea name="address" class="form-control" id="" cols="30" rows="5"><?php echo $current_profile['address'] ?></textarea>
+                              
+                              
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <div class="offset-sm-2 col-sm-10">
+                              <button type="submit" class="btn btn-danger">Submit</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <!-- /.tab-pane -->
                     </div>
-                    <!-- /.post -->
-
-                    <?php } } ?>
-
-                    
-
-
-
-
-
-
-                  </div>
-                  <!-- /.tab-pane -->
-
-                  <div class="tab-pane" id="settings">
-                    <form class="form-horizontal" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
-                      <div class="form-group row">
-                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                        <div class="col-sm-10">
-                          <input type="name" name="name" value="<?php echo $current_user['name'] ?>" class="form-control" id="inputName" placeholder="Name">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                        <div class="col-sm-10">
-                          <input type="email" readonly name="email" value="<?php echo $current_user['email'] ?>" class="form-control" id="inputEmail" placeholder="Email">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputName2" class="col-sm-2 col-form-label">Occupation</label>
-                        <div class="col-sm-10">
-                          <input type="text" name="occupation" value="<?php echo $current_user['occupation'] ?>" class="form-control" id="" placeholder="What You Doing Now">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputExperience" class="col-sm-2 col-form-label">City</label>
-                        <div class="col-sm-10">
-                          <input type="text"  name="city" value="<?php echo $current_profile['city'] ?>"  class="form-control" placeholder="Your city" id="">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputSkills" class="col-sm-2 col-form-label">Phone</label>
-                        <div class="col-sm-10">
-                          <input type="text"  name="phone" value="<?php echo $current_profile['phone'] ?>" class="form-control" id="inputSkills" placeholder="Skills">
-                        </div>
-                      </div>
-                      <div class="form-group row">
-                        <label for="inputSkills"  class="col-sm-2 col-form-label">Address</label>
-                        <div class="col-sm-10">
-                          <textarea name="address" class="form-control" id="" cols="30" rows="5"><?php echo $current_profile['address'] ?></textarea>
-                          
-                          
-                        </div>
-                      </div>
-                      
-                      <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                          <button type="submit" class="btn btn-danger">Submit</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                  <!-- /.tab-pane -->
+                    <!-- /.tab-content -->
+                  </div><!-- /.card-body -->
                 </div>
-                <!-- /.tab-content -->
-              </div><!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
+                <!-- /.card -->
+              </div>
           <!-- /.col -->
+          <?php }else{ ?>
+            <div class="col-md-9 py-3">
+              <!-- <button class="b">Admin</button> -->
+               <!-- <a href="/admin/index.php" class="btn btn-success">Admin</a> -->
+                <div class="card">
+                  <div class="card-body">
+                  <form class="form-horizontal" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+                          <div class="form-group row">
+                            <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-10">
+                              <input type="name" name="name" value="<?php echo $current_user['name'] ?>" class="form-control" id="inputName" placeholder="Name">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                              <input type="email" readonly name="email" value="<?php echo $current_user['email'] ?>" class="form-control" id="inputEmail" placeholder="Email">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputName2" class="col-sm-2 col-form-label">Occupation</label>
+                            <div class="col-sm-10">
+                              <input type="text" name="occupation" value="<?php echo $current_user['occupation'] ?>" class="form-control" id="" placeholder="What You Doing Now">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputExperience" class="col-sm-2 col-form-label">City</label>
+                            <div class="col-sm-10">
+                              <input type="text"  name="city" value="<?php echo $current_profile['city'] ?>"  class="form-control" placeholder="Your city" id="">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputSkills" class="col-sm-2 col-form-label">Phone</label>
+                            <div class="col-sm-10">
+                              <input type="text"  name="phone" value="<?php echo $current_profile['phone'] ?>" class="form-control" id="inputSkills" placeholder="Skills">
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label for="inputSkills"  class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                              <textarea name="address" class="form-control" id="" cols="30" rows="5"><?php echo $current_profile['address'] ?></textarea>
+                              
+                              
+                            </div>
+                          </div>
+                          
+                          <div class="form-group row">
+                            <div class="offset-sm-2 col-sm-10">
+                              <button type="submit" class="btn btn-danger">Submit</button>
+                            </div>
+                          </div>
+                        </form>
+                  </div>
+                </div>
+            </div>
+          <?php } ?>
+                      
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->

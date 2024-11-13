@@ -34,7 +34,14 @@
                   <p>Profile</p>
                 </a>
               </li>
-
+              <?php if($_SESSION['admin_type'] == "admin" ){ ?>
+                <li class="nav-item">
+                <a href="/admin/index.php" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>Admin</p>
+                </a>
+              </li>
+              <?php }  ?>
               
               <li class="nav-item">
                 <a href="/profile/feedback.php" class="nav-link">
@@ -51,7 +58,7 @@
               
               <li class="nav-item">
                 <a href="/logout.php" class="nav-link">
-                <i class="fa-solid fa-right-from-bracket"></i>
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
                   <p>Logout</p>
                 </a>
               </li>

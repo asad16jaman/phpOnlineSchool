@@ -118,11 +118,11 @@ require_once('./template/sidebar.php')
                    
                       <td>
                         <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])."?crs=".$crs_id ?>" method="post">
-                            <a href="./edit_lesson.php?crs=<?php echo $data['id'] ?>" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                            <a href="./edit_lesson.php?crs=<?php echo $data['id'] ?>" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
 
                           <input type="hidden" name="delete_id" value="<?php echo $data['id'] ?>">
                             <button onclick="confirm('Are You sure to delete this user') ? this.parent.submit() : '' " type="submit"  class="btn btn-danger">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <i class="fa-solid fa-trash"></i>
                             </button>
                        </form>
                       </td>                    

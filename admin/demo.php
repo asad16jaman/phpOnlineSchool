@@ -42,6 +42,12 @@ require_once('./template/sidebar.php')
           
         </div>
         <!-- /.row -->
+
+        <!-- delete -->
+        <i class="fa-solid fa-trash"></i>
+
+        //edit
+        <i class="fa-solid fa-pen-to-square"></i>
         
 		
         </div>

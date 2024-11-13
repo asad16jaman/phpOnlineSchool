@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in']){
-    header("Location: index.php");
+    header("Location: login.php");
     exit();
 };
 require_once('./../config/Config.php');

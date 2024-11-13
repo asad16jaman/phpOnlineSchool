@@ -11,6 +11,7 @@
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
+//font awesome
 <script src="./../../assets/library/js/all.min.js"></script>
 <script src="./../../admin/dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->

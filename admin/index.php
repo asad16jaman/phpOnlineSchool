@@ -149,7 +149,7 @@ require_once('./template/sidebar.php')
                             <!-- <a href="#" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </a> -->
                             <button type="submit" class="btn btn-danger">
-                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            <i class="fa-solid fa-trash"></i>
                             </button>
 
                         </form>
