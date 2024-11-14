@@ -17,6 +17,8 @@ if(!$course_id){
 
 $db = getDbInstance();
 $course = $db->where('id',$course_id)->getOne('courses');
+$auth_user = $db->where('id',$_SESSION['user_id'])->getOne('users');
+$profile = $db->where('user_id',$_SESSION['user_id'])->getOne('profiles');
 if(!$course){
   header("Location: /");
   exit();
@@ -72,19 +74,22 @@ require_once('./includes/topBanner.php')
                     Card Detail
                 </div>
                 <div class="card-body">
-                    <p>Name: Asad</p>
-                    <p>Email: asad@gmail.com</p>
-                    <p>Phone: 01755240250</p>
-                    <p>City: Dhaka</p>
-                    <p>Address: Tongi,Dhaka</p>
-                    <p>Cost : 500</p>
+                    <p>Name: <?php echo $auth_user['name'] ?></p>
+                    <p>Email: <?php echo $auth_user['email'] ?></p>
+                    <p>Phone: <?php echo ($profile['phone']) ? $profile['phone'] : "Not Set Yet" ?></p>
+                    <p>City: <?php echo ($profile['city']) ? $profile['city'] : "Not Set Yet" ?></p>
+                    <p>Address: <?php echo ($profile['address']) ? $profile['address'] : "Not Set Yet" ?></p>
+                    <p>Course Name: <?php echo $course['name'] ?></p>
+                    <p>Cost : <?php echo $course['sell_price'] ?></p>
                 </div>
                 <div class="card-footer">
                     <div class="d-grid gap-2">
                         <?php if(!$is_purces){ ?>
                             <form action="purchaces.php?crs_id=<?php echo $course['id'] ?>" method="post">
-                         <input type="submit" value="Checkout" class="btn btn-primary">
-                        </form>
+                                <input type="text" hidden name="amount"  value="<?php echo $course['sell_price']  ?>" id="">
+                                <input type="text" hidden name="course_name" value="<?php echo $course['name']  ?>" id="">
+                                <input type="submit" value="Checkout" class="btn btn-primary">
+                            </form>
 
                         <?php }else{ ?>
                                 <p class="text-center">You Have purches this course</p>

@@ -96,7 +96,7 @@ require_once('./template/sidebar.php')
                   <thead>
                     <tr>                    
                       <th>Id</th>
-                      <th>Content</th>
+                      <th width="300px">Content</th>
                       <th>Course Id</th>
                       <th>Student Id</th>
                       <th>Action</th>
@@ -106,7 +106,7 @@ require_once('./template/sidebar.php')
                     <?php foreach($all as $data) {?>
                       <tr>
                       <td><?php echo $data['id'] ?></td>
-                      <td><?php echo $data['fedbk'] ?></td>
+                      <td width="300px"><?php echo $data['fedbk'] ?></td>
                       <td><?php echo $data['course_id'] ?></td>                  
                       <td><?php echo $data['user_id'] ?></td>                  
                       <td>

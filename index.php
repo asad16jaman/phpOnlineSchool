@@ -3,8 +3,15 @@ session_start();
 require_once('./config/Config.php');
 
 $db = getDbInstance();
-$db->pageLimit = 6;
-$popular_course = $db->arraybuilder()->paginate("courses", 1);
+
+//catch favorite course
+// $db->pageLimit = 6;
+// $popular_course = $db->arraybuilder()->paginate("courses", 1);
+
+$popular_course = $db->rawQuery('SELECT courses.* FROM populars INNER JOIN courses ON populars.course_id = courses.id ORDER BY populars.id DESC LIMIT 6');
+
+//catch feedbacks
+$feedbacks = $db->rawQuery("SELECT feedbacks.fedbk,feedbacks.created_at,users.image,users.name FROM feedbacks INNER JOIN users ON feedbacks.user_id = users.id ORDER BY feedbacks.id desc  LIMIT 8");
 
 require_once('./includes/header.php')
 ?>
@@ -97,63 +104,45 @@ require_once('./includes/navbar.php')
 
       <div class="owl-carousel">
 
-          <div class="">
+          <!-- <div class="">
               <div class="card">
                 <div class="card-body">
                   Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime mollitia, dolores quos quasi tenetur autem aspernatur deleniti id voluptates sequi?
                 </div>
               </div>
-          </div>
-          <div class="">
-              <div class="card">
-                <div class="card-body">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime mollitia, dolores quos quasi tenetur autem aspernatur deleniti id voluptates sequi?
-                </div>
-              </div>
-          </div>
-          <div class="">
-              <div class="card">
-                <div class="card-body">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime mollitia, dolores quos quasi tenetur autem aspernatur deleniti id voluptates sequi?
-                </div>
-              </div>
-          </div>
-          <div class="">
-              <div class="card">
-                <div class="card-body">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime mollitia, dolores quos quasi tenetur autem aspernatur deleniti id voluptates sequi?
-                </div>
-              </div>
-          </div>
-          <div class="">
-              <div class="card">
-                <div class="card-body">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime mollitia, dolores quos quasi tenetur autem aspernatur deleniti id voluptates sequi?
-                </div>
-              </div>
-          </div>
-          <div class="">
-              <div class="card">
-                <div class="card-body">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime mollitia, dolores quos quasi tenetur autem aspernatur deleniti id voluptates sequi?
-                </div>
-              </div>
-          </div>
-          <div class="">
-              <div class="card">
-                <div class="card-body">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime mollitia, dolores quos quasi tenetur autem aspernatur deleniti id voluptates sequi?
-                </div>
-              </div>
-          </div>
-          <div class="">
-              <div class="card">
-                <div class="card-body">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime mollitia, dolores quos quasi tenetur autem aspernatur deleniti id voluptates sequi?
-                </div>
-              </div>
-          </div>
+          </div> -->
+          
 
+ 
+  
+          <?php  if($feedbacks){
+            foreach($feedbacks as $fd){
+            
+            ?>
+
+          <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="d-flex justify-content-center" >
+                    <img style="width: 70px; border: 2px solid pink;border-radius: 50%;padding: 5px;" class="profile-user-img img-fluid img-circle" src="/profile/picture/<?php echo ($fd['image']) ? $fd['image'] : "avatar.png" ?>" alt="some ">
+                </div>
+
+                <h3 class="profile-username text-center" >
+                  <?php echo  $fd['name']?>
+                  
+                </h3>
+                <p class="text-center"><?php echo  $fd['created_at']?></p>
+
+                <p style="text-align:justify">
+                  <?php echo $fd['fedbk'] ?>
+                </p>
+              </div>
+              <!-- /.card-body -->
+            </div>
+
+          
+            <?php  } }
+            
+            ?>
       </div>
 
       

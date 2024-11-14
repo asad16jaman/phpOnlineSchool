@@ -202,10 +202,10 @@ require_once('./template/nav.php')
                                     <?php echo limit_words($card['description'],40) ?>.....
                                     </p>
                                     <div class="d-flex justify-content-end">
-                                      
-                                      <a href="/profile/feedback.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-primary">Give Feedback</a>
+                                    <a href="/profile/course_view.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-primary mx-3">View Course</a>
+                                      <a href="/profile/feedback.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-secondary">Feedback</a>
                                     
-                                      <a href="/profile/course_view.php?crs_id=<?php echo $card['id'] ?>" class="btn btn-secondary mx-3">View</a>
+                                      
                                     </div>
                               </div>
                             </div>

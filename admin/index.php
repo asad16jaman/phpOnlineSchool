@@ -4,6 +4,39 @@ if(!isset($_SESSION['user_logged_in']) || !$_SESSION['user_logged_in'] || $_SESS
     header("Location: /index.php");
     exit();
 };
+$page = filter_input(INPUT_GET,'page',FILTER_VALIDATE_INT);
+if(!$page){
+  $page = 1;
+    }
+require_once('./../config/Config.php');
+$db = getDbInstance();
+
+//delete  order
+if($_SERVER['REQUEST_METHOD'] == 'POST'){ 
+    $id = filter_input(INPUT_POST,'delete_id',FILTER_VALIDATE_INT);     
+    $user_id = filter_input(INPUT_POST,'user_id',FILTER_VALIDATE_INT);     
+    $course_id = filter_input(INPUT_POST,'course_id',FILTER_VALIDATE_INT);     
+    if($id){
+      try{
+      $db->where('id',$id)->delete("orders");
+      $db->where('user_id',$user_id)->where('course_id',$course_id)->delete("user_courses");
+      }catch(Exception $e){
+          //hae to handle
+      }
+    }
+    
+  }
+
+
+$db->pageLimit = 5;
+
+$all = $db->arraybuilder()->paginate("orders", $page);
+   
+
+
+
+
+
 require_once('./template/top.php')
     ?>
 
@@ -128,7 +161,9 @@ require_once('./template/sidebar.php')
               <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                   <thead>
+                  
                     <tr>
+                      <th>#</th>
                       <th>Order Id</th>
                       <th>Course Id</th>
                       <th>Student Email</th>
@@ -136,31 +171,42 @@ require_once('./template/sidebar.php')
                       <th>Amount</th>
                       <th>Action</th>
                     </tr>
+                    
                   </thead>
                   <tbody>
+                  <?php foreach($all as $key=>$data) {?>
                     <tr>
-                      <td>183</td>
-                      <td>1457</td>
-                      <td>abc@gmail.com</td>
-                      <td>11-7-2014</td>
-                      <td>200</td>
+                      <td><?php echo $key+1 ?></td>
+                      <td><?php echo $data['unique_id'] ?></td>
+                      <td><?php echo $data['course_id'] ?></td>
+                      <td><?php 
+                           echo $db->where('id',$data['user_id'])->getOne('users')['email']
+                      ?></td>
+                      <td><?php echo $data['created_at'] ?></td>
+                      <td><?php echo $data['amount'] ?></td>
                       <td>
-                        <form action="" method="post">
-                            <!-- <a href="#" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                            </a> -->
-                            <button type="submit" class="btn btn-danger">
+                        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+                            
+                          <input type="hidden" name="delete_id" value="<?php echo $data['id'] ?>">
+                          <input type="hidden" name="user_id" value="<?php echo $data['user_id'] ?>">
+                          <input type="hidden" name="course_id" value="<?php echo $data['course_id'] ?>">
+                            <button onclick="confirm('Are You sure to delete this user') ? this.parent.submit() : '' " type="submit" class="btn btn-danger">
                             <i class="fa-solid fa-trash"></i>
                             </button>
-
                         </form>
-
                       </td>
                     </tr>
+                    <?php }?>
                     
                   </tbody>
                 </table>
               </div>
               <!-- /.card-body -->
+              <div class="card-footer clearfix">
+                <ul class="pagination pagination-sm m-0 float-right">
+                <?php echo paginateController('/admin/index.php',$db->totalPages,$page) ?>
+                </ul>
+              </div>
             </div>
             <!-- /.card -->
           </div>
